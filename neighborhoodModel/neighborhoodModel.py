@@ -82,7 +82,53 @@ def init(city,addresses):
     return city
 def main(city, addresses):
     ##start of loop
+    for i in range(0,401):
+        emptyLots = []
+        dissatifiedOwners = []
+        for x in range(0,60):
+            if city[x][2] == 0:
+                emptyLots.append(x)
+            ## if not means lots full check for dissatified people
+            else:
+                neighborsValues = []
+                occupantValue = city[x][2]
+                ## print(occupantValue)
+                for values in city[x][1]:
+                    ## print(values)
+                    neighborsValues.append(city[values][2])
+                numOne = 0
+                numTwo = 0
+                for numValues in neighborsValues:
+                    if numValues == 1:
+                        numOne += 1
+                    if numValues == 2:
+                        numTwo += 1
+                ##print(numOne)
+                ##print(numTwo)
+                if (occupantValue == 1 and numOne < 2) or (occupantValue == 2 and numTwo < 2):
+                    dissatifiedOwners.append(x)
+                    ##print("addes dissastified")
+        ##now we have all empty lots and dissatified owners
+        ## choose random owner and move to random lot
+        if len(dissatifiedOwners) != 0:
+            moveOut = random.choice(dissatifiedOwners)
+            moveOutType = city[moveOut][2]
+            moveInto = random.choice(emptyLots)
+            city[moveInto][2] = moveOutType
+            city[moveOut][2] = 0
+            state = []
+            for currentOccupent in range(0,60):
+                state.append(city[currentOccupent][2])
+            if (i % 20) == 0:
+                print(state)
+        else:
+            state = []
+            for currentOccupent in range(0,60):
+                state.append(city[currentOccupent][2])
+            print(state)
+            return state
+
 
 city = init(city,addresses)
-print(city)
+main(city,addresses)
 
